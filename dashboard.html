@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DollarBank - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <div class="dashboard">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-landmark"></i> DollarBank</h2>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">JD</div>
+                <div class="user-details">
+                    <div class="name" id="user-name">John Doe</div>
+                    <div class="email" id="user-email">john@example.com</div>
+                </div>
+            </div>
+            <div class="balance-card">
+                <div class="label">Your Balance</div>
+                <div class="amount" id="user-balance">$0.00</div>
+            </div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="#" class="active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-page="transfer">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transfer Money</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-page="fund">
+                        <i class="fas fa-wallet"></i>
+                        <span>Transfer to Account</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-page="transactions">
+                        <i class="fas fa-history"></i>
+                        <span>Transaction History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <div class="page-header">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Dashboard</h1>
+            </div>
+            
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard-page">
+                <div class="bank-card">
+                    <div class="bank-card-header">
+                        <div class="bank-card-logo">DollarBank</div>
+                        <div class="bank-card-chip"></div>
+                    </div>
+                    <div class="bank-card-number">**** **** **** 1234</div>
+                    <div class="bank-card-details">
+                        <div class="bank-card-name">
+                            <div class="bank-card-label">Card Holder</div>
+                            <div class="bank-card-value" id="card-holder-name">John Doe</div>
+                        </div>
+                        <div class="bank-card-expiry">
+                            <div class="bank-card-label">Expires</div>
+                            <div class="bank-card-value">12/28</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Current Balance</div>
+                        <div class="stat-value" id="dashboard-balance">$0.00</div>
+                        <div class="stat-desc">Available funds</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Received</div>
+                        <div class="stat-value" id="total-received">$0.00</div>
+                        <div class="stat-desc">All time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Sent</div>
+                        <div class="stat-value" id="total-sent">$0.00</div>
+                        <div class="stat-desc">All time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Transactions</div>
+                        <div class="stat-value" id="transaction-count">0</div>
+                        <div class="stat-desc">All time</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Account Activity</h2>
+                    </div>
+                    <div class="activity-chart" id="activity-chart">
+                        <!-- Activity bars will be generated by JavaScript -->
+                    </div>
+                    <div class="activity-legend">
+                        <div class="legend-item">
+                            <div class="legend-color income"></div>
+                            <span>Income</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color expense"></div>
+                            <span>Expense</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent Transactions</h2>
+                    </div>
+                    <div class="transaction-history">
+                        <table class="transaction-list" id="recent-transactions">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transfer Money Page -->
+            <div class="page" id="transfer-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Transfer Money</h2>
+                    </div>
+                    <div class="transaction-tabs">
+                        <button class="transaction-tab active" data-tab="send-money">Send Money</button>
+                        <button class="transaction-tab" data-tab="fund-user">Fund User</button>
+                    </div>
+                    
+                    <div class="transaction-content active" id="send-money-content">
+                        <form id="transfer-form">
+                            <div class="form-group">
+                                <label for="recipient-email">Recipient Email</label>
+                                <input type="email" id="recipient-email" placeholder="Enter recipient's email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="transfer-amount">Amount ($)</label>
+                                <input type="number" id="transfer-amount" placeholder="Enter amount" min="1" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="transfer-note">Note (Optional)</label>
+                                <input type="text" id="transfer-note" placeholder="What's this for?">
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Send Money</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="transaction-content" id="fund-user-content">
+                        <form id="fund-user-form">
+                            <div class="form-group">
+                                <label for="fund-user-email">User Email</label>
+                                <input type="email" id="fund-user-email" placeholder="Enter user's email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fund-user-amount">Amount ($)</label>
+                                <input type="number" id="fund-user-amount" placeholder="Enter amount" min="1" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fund-user-note">Note (Optional)</label>
+                                <input type="text" id="fund-user-note" placeholder="What's this for?">
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Fund User</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fund Account Page -->
+            <div class="page" id="fund-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Transfer to External Account</h2>
+                    </div>
+                    <div class="fund-options">
+                        <div class="fund-option" data-method="visa">
+                            <i class="fab fa-cc-visa"></i>
+                            <h3>Credit/Debit Card</h3>
+                            <p>Transfer to card</p>
+                        </div>
+                        <div class="fund-option" data-method="paypal">
+                            <i class="fab fa-paypal"></i>
+                            <h3>PayPal</h3>
+                            <p>Fast and secure</p>
+                        </div>
+                        <div class="fund-option" data-method="bitcoin">
+                            <i class="fab fa-bitcoin"></i>
+                            <h3>Bitcoin</h3>
+                            <p>Cryptocurrency</p>
+                        </div>
+                        <div class="fund-option" data-method="binance">
+                            <i class="fab fa-bitcoin"></i>
+                            <h3>Binance</h3>
+                            <p>Cryptocurrency exchange</p>
+                        </div>
+                    </div>
+                    
+                    <div id="fund-form-container" class="hidden">
+                        <form id="fund-form">
+                            <div class="form-group">
+                                <label for="fund-amount">Amount to Transfer ($)</label>
+                                <input type="number" id="fund-amount" placeholder="Enter amount" min="1" step="0.01" required>
+                            </div>
+                            <div id="payment-method-fields"></div>
+                            <div class="btn-group">
+                                <button type="button" id="cancel-fund" class="btn btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Transfer Funds</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transaction History Page -->
+            <div class="page" id="transactions-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Transaction History</h2>
+                    </div>
+                    <div class="transaction-history">
+                        <table class="transaction-list" id="all-transactions">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="payment-modal-title">Payment Details</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="payment-modal-body">
+                <!-- Payment form will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="dashboard.js"></script>
+    <script>
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Toggle theme
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark');
+                
+                if (document.body.classList.contains('dark')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // Generate activity chart with sample data
+            generateActivityChart();
+        });
+        
+        // Generate activity chart
+        function generateActivityChart() {
+            const activityChart = document.getElementById('activity-chart');
+            if (!activityChart) return;
+            
+            // Sample data for the chart
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const amounts = [120, 85, 200, 45, 150, 75, 180];
+            
+            // Clear existing bars
+            activityChart.innerHTML = '';
+            
+            // Find max amount for scaling
+            const maxAmount = Math.max(...amounts);
+            
+            // Create bars
+            days.forEach((day, index) => {
+                const height = (amounts[index] / maxAmount) * 150;
+                const bar = document.createElement('div');
+                bar.className = 'activity-bar';
+                bar.style.height = `${height}px`;
+                bar.setAttribute('data-amount', `$${amounts[index]}`);
+                bar.setAttribute('data-day', day);
+                
+                // Randomly assign income or expense class for visual variety
+                if (Math.random() > 0.5) {
+                    bar.style.backgroundColor = 'var(--success-color)';
+                } else {
+                    bar.style.backgroundColor = 'var(--danger-color)';
+                }
+                
+                activityChart.appendChild(bar);
+            });
+        }
+    </script>
+    <!-- Begin of Chaport Live Chat code -->
+<script type="text/javascript">
+(function(w,d,v3){
+w.chaportConfig = {
+appId : '67afc612b9a2faf1bc297996'
+};
+
+if(w.chaport)return;v3=w.chaport={};v3._q=[];v3._l={};v3.q=function(){v3._q.push(arguments)};v3.on=function(e,fn){if(!v3._l[e])v3._l[e]=[];v3._l[e].push(fn)};var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://app.chaport.com/javascripts/insert.js';var ss=d.getElementsByTagName('script')[0];ss.parentNode.insertBefore(s,ss)})(window, document);
+</script>
+<!-- End of Chaport Live Chat code -->
+</body>
+</html>
+
